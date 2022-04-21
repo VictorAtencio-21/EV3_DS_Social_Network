@@ -1,5 +1,9 @@
 version: '3'
 
+networks:
+  mainnetwork:
+  driver: bridge
+
 services:
   proxy: proxy
   build:
@@ -11,7 +15,7 @@ services:
       - users
       - posts
     networks:
-      - network1
+      - mainnetwork
   users:
     image: users
     build:
@@ -22,7 +26,7 @@ services:
     ports:
       - 3000:3000
     networks:
-      - network1
+      - mainnetwork
   posts:
     image: posts
     build:
@@ -33,11 +37,11 @@ services:
     ports:
       - 4000:4000
     networks:
-      - network1
+      - mainnetwork
   redis:
     container_name: ev3_redis
     image: redis:alpine
     ports:
       - "6379:6379"
     networks:
-      - network1
+      - mainnetwork
