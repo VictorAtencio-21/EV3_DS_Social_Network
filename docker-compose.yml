@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  proxy: proxy
+  build:
+    context: ./PROXY
+    dockerfile: ./PROXY/Dockerfile
+    ports:
+      - 5000:5000
+    depends_on:
+      - users
+      - posts
+    networks:
+      - network1
+  users:
+    image: users
+    build:
+      context: ./SERVICES/AUTH/
+      dockerfile: ./SERVICES/AUTH//Dockerfile
+    environment:
+      USERS_DB_URI=${USERS_DB_URI}
+    ports:
+      - 3000:3000
+    networks:
+      - network1
+  posts:
+    image: posts
+    build:
+      context: ./SERVICES/API/
+      dockerfile: ./SERVICES/API//Dockerfile
+    environment:
+      POSTS_DB_URI=${POSTS_DB_URI}
+    ports:
+      - 4000:4000
+    networks:
+      - network1
+  redis:
+    container_name: ev3_redis
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - network1
