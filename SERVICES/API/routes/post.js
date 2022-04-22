@@ -5,7 +5,10 @@ const {createClient} = require("redis");
 //Configuring redis
 const client = createClient({
   host: '127.0.0.1',
-  port: 6379
+  port: 6379,
+  socket: {
+    host: "redis"
+  }
 });
 
 //create a post
